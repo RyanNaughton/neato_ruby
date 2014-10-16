@@ -5,7 +5,7 @@ class Robot
   USB_REGEX = /tty.usbmodem/
 
   def initialize(port = nil)
-    @port = port if port.present?
+    @port = port unless port.nil?
   end
 
   def port
@@ -18,7 +18,9 @@ class Robot
 
   def clear_buffer
     begin
-      while true { printf("%c", device.getc) }
+      while true do
+        printf("%c", device.getc)
+      end
     rescue EOFError => e
       return
     end
