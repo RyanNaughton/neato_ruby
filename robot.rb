@@ -22,12 +22,9 @@ class Robot
   end
 
   def clear_buffer
-    begin
-      while true do
-        printf("%c", device.getc)
-      end
-    rescue EOFError => e
-      return
+    while true do
+      char = device.getc
+      char ? printf("%c", char) : break
     end
   end
 
