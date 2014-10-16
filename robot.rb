@@ -13,7 +13,13 @@ class Robot
   end
 
   def device
-    @device ||= SerialPort.new port, read_timeout: -1
+    return @device unless @device.nil?
+    if port
+      @devoce = SerialPort.new port
+      @device.read_timeout = -1
+      @device
+    end
+    @device
   end
 
   def clear_buffer
