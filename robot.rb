@@ -15,7 +15,7 @@ class Robot
   def device
     return @device unless @device.nil?
     if port
-      @devoce = SerialPort.new port
+      @device = SerialPort.new port
       @device.read_timeout = -1
       @device
     end
