@@ -4,6 +4,8 @@ class Robot
 
   USB_REGEX = /tty.usbmodem/
 
+  attr_accessor :latest_lds_scan
+
   def initialize(port = nil)
     @port = port unless port.nil?
   end
@@ -66,8 +68,15 @@ class Robot
     lds_scan = (1..363).map do |x|
       device.readline("\n")
     end
-    lds_scan = lds_scan.map{|row| row.gsub("\r\n","").split(",")}
-    lds_scan[1..-2]
+    lds_scan = lds_scan.map{|row| row.gsub("\r\n","").split(",")}[1..-2]
+    self.latest_lds_scan = {lds_scan: lds_scan, time: Time.now}
+    lds_scan
+  end
+
+  def is_latest_lds_scan_recent?(more_recent_than = nil)
+    return false unless latest_lds_scan
+    more_recent_than = !more_recent_than.nil? ? more_recent_than : Time.now - 20
+    latest_lds_scan[:time] > more_recent_than
   end
 
   private
