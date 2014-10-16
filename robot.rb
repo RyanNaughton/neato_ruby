@@ -17,7 +17,6 @@ class Robot
     if port
       @device = SerialPort.new port
       @device.read_timeout = -1
-      @device
     end
     @device
   end
