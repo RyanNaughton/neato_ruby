@@ -43,12 +43,6 @@ class Robot
     clear_buffer
   end
 
-  def disable_testmode
-    clear_buffer
-    device.write "testmode Off\n"
-    clear_buffer
-  end
-
   def enable_lds_rotation
     toggle_lds_rotation
   end
@@ -61,12 +55,6 @@ class Robot
     on_off = enable ? "On" : "Off"
     clear_buffer
     device.write "SetLDSRotation #{on_off}\n"
-    clear_buffer
-  end
-
-  def disable_lds_rotation
-    clear_buffer
-    device.write "SetLDSRotation Off\n"
     clear_buffer
   end
 
