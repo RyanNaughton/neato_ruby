@@ -79,6 +79,56 @@ class Robot
     latest_lds_scan[:time] > more_recent_than
   end
 
+  def set_motor(left_wheel_dist, right_wheel_dist, speed)
+    enable_testmode
+    clear_buffer
+    device.write "SetMotor #{left_wheel_dist} #{right_wheel_dist} #{speed}\n"
+  end
+
+  def turn_right(speed = 100)
+    turn(90, speed)
+  end
+
+  def turn_left(speed = 100)
+    turn(-90, speed)
+  end
+
+  def turn(degrees, speed = 100)
+    degrees = degrees % 360
+    if degrees > 180
+      degrees = (360 - degrees)*-1
+    end
+    distance = degrees*2.2222222222222223
+    set_motor(distance, distance*-1, speed)
+  end
+
+  def angle_of_max_distance
+    scan = get_lds_scan
+    max_distance = scan.map{|x| x[1].to_i}.max
+    scan.find{|s| s[1].to_i == max_distance}[0].to_i
+  end
+
+  def max_visible_distance
+    #scan = is_latest_lds_scan_recent?(Time.now - 3) ? latest_lds_scan[:lds_scan] : get_lds_scan
+    scan = get_lds_scan
+    scan.map{|x| x[1].to_i}.max
+  end
+
+  # r.device.write "GetDigitalSensors\n"
+  # r.clear_buffer
+
+  # r.device.write "GetAnalogSensors\n"
+  # r.clear_buffer
+
+  # r.device.write "GetAccel\n"
+  # r.clear_buffer
+
+  # r.device.write "GetMotors\n"
+  # r.clear_buffer
+
+
+
+
   private
 
   def get_port
@@ -88,7 +138,7 @@ class Robot
   def get_device
     if port
       device = SerialPort.new port
-      device.read_timeout = 1
+      device.read_timeout = 100
       device
     else
       nil
