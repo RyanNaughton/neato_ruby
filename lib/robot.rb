@@ -59,6 +59,8 @@ class Robot
   end
 
   def get_lds_scan
+    enable_testmode
+    enable_lds_rotation
     clear_buffer
     device.write "GetLDSScan\n"
     lds_scan = (1..363).map do |x|
