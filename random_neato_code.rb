@@ -19,7 +19,7 @@
 r = Robot.new
 while true do
   angle = r.angle_of_max_distance
-  puts angle
+  puts "angle is #{angle}"
   #max_visible_distance = r.max_visible_distance
   #distance = (max_visible_distance < 10000 &&  max_visible_distance > -10000) ? max_visible_distance ?
   distance = 200

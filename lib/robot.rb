@@ -2,7 +2,7 @@ require 'serialport'
 
 class Robot
 
-  USB_REGEX = /tty.usbmodem/
+  USB_REGEX = /ttyACM0/ #/tty.usbmodem/
 
   attr_accessor :latest_lds_scan
 
